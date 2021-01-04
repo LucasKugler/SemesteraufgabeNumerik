@@ -14,9 +14,9 @@ function [x,z,dx,dz]=Grid(x1,x2,z1,z2)
 %--------------------------------------------------------------------------
 
    x = linspace(x1,x2,nX);
-   dx = (x2-x1)/nX;
+   dx = (x2-x1)/(nX-1);
    
    z = linspace(z1,z2,nZ);
-   dz = (z2-z1)/nZ;
+   dz = (z2-z1)/(nZ-1);
    
 end
