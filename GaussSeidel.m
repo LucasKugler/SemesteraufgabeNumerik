@@ -17,28 +17,20 @@ iter=0;
 fprintf('-------------------------------------------- \n');
 fprintf('Starting Gauss-Seidel Iteration!    \n');
 
-uTilde = zeros(n,1);
 
 while delta>eps
    iter=iter+1; 
    uTilde = zeros(n,1);
 
    for i = 1:n
-       
-       for j = 1:n
-           if j < i
-               uTilde(i) = uTilde(i) + A(i,j)*uTilde(j);
-           elseif j > i
-               uTilde(i) = uTilde(i) + A(i,j)*U(j);
-           end
-       end
-    %    for j = 1:(i-1)
-    %         uTilde(i) = uTilde(i) + A(i,j)*uTilde(j);
-    %    end
 
-    %    for j = (i+1):n
-    %         uTilde(i) = uTilde(i) + A(i,j)*U(j);
-    %    end
+       for j = 1:(i-1)
+            uTilde(i) = uTilde(i) + A(i,j)*uTilde(j);
+       end
+
+       for j = (i+1):n
+            uTilde(i) = uTilde(i) + A(i,j)*U(j);
+       end
 
        uTilde(i) = - (uTilde(i) - B(i)) / A(i,i);
    end
