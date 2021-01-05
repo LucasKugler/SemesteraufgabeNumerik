@@ -16,10 +16,26 @@ function [A,B]=FillFDMatrix(A,B)
  % inout----------------------------------------------------------------
  
 %--------------------------------------------------------------------------
-
-   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-   %Hier muss etwas implementiert werden%
-   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
+     
+   for i = 1:nX
+       A(i,i) = 1;
+   end
+   
+   for i = (nX+1):((nX-1)*nZ)
+       A(i,i-nX) = 1/dXs^2;
+       A(i,i) = -2/dXs^2;
+       A(i,i+nX) = 1/dXs^2;
+   end
+   
+   for i = ((nX-1)*nZ+1):(nX*nZ)
+       A(i,i) = 3/(2*dXs) + Bi;
+       A(i,i-nX) = -4/(2*dXs);
+       A(i,i-2*nX) = 1/(2*dXs);
+   end
+   
+   for i = 1:nX
+       B(i) = Theta_BC;
+   end
+   
 end
 
