@@ -1,26 +1,41 @@
 % Created by Steven Jöns - joens@iag.uni-stuttgart.de
 
-function [A,B]=FillUFDMatrix(A,B) 
+function [A,B]=FillUFDMatrix(A,B)
 
-% Globale Variablen--------------------------------------------------------
+    % Globale Variablen--------------------------------------------------------
 
- % in-------------------------------------------------------------------
-   global nX       % Anzahl Gitterpunkt x-Richtung
-   global nZ       % Anzahl Gitterpunkt z-Richtung
-   global dZf      % Gitterschrittweite X-Richtung Fluid 
-   global dXf      % Gitterschrittweite Z-Richtung Fluid
-   global beta_v   % Modellkoeffizient Geschwindigkeitsrandbedingung
-   global Kn       % Knudsen Zahl
- % out------------------------------------------------------------------
- 
- % inout----------------------------------------------------------------
- 
-%--------------------------------------------------------------------------
+    % in-------------------------------------------------------------------
+    global nX       % Anzahl Gitterpunkt x-Richtung
+    global nZ       % Anzahl Gitterpunkt z-Richtung
+    global dZf      % Gitterschrittweite X-Richtung Fluid
+    global dXf      % Gitterschrittweite Z-Richtung Fluid
+    global beta_v   % Modellkoeffizient Geschwindigkeitsrandbedingung
+    global Kn       % Knudsen Zahl
+    % out------------------------------------------------------------------
 
-for i = 1:nX
-    A(DOF(i,1),DOF(i,1)) = -3/dZf^2;
-    A(DOF(i,1),DOF(i,2)) = -3/dZf^2;
-    A(DOF(i,1),DOF(i,3)) = -3/dZf^2;
+    % inout----------------------------------------------------------------
 
+    %--------------------------------------------------------------------------
+    
+    for i = 1:nX
+        A(DOF(i,1),DOF(i,1)) = -3/(2*dZf);
+        A(DOF(i,1),DOF(i,2)) = 4/(2*dZf);
+        A(DOF(i,1),DOF(i,3)) = -1/(2*dZf);
+        
+        for j = 2:nZ-1
+            A(DOF(i,j),DOF(i,j-1)) = 1/dZf^2;
+            A(DOF(i,j),DOF(i,j)) = -2/dZf^2;
+            A(DOF(i,j),DOF(i,j+1)) = 1/dZf^2;
+            B(DOF(i,j))=-1;
+        end
+        
+        A(DOF(i,nZ),DOF(i,nZ)) = -3*beta_v*Kn/(2*dZf);
+        A(DOF(i,nZ),DOF(i,nZ-1)) = 4*beta_v*Kn/(2*dZf);
+        A(DOF(i,nZ),DOF(i,nZ-2)) = -1*beta_v*Kn/(2*dZf);
+    end
+    
+    
+    
+    
 end
 
