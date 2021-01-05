@@ -39,6 +39,7 @@ function [A,B]=FillFDMatrix(A,B)
    for i = 1:nX
        B(i) = Theta_BC(i);
    end
+
    
 end
 
