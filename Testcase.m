@@ -19,10 +19,9 @@ qf=zeros(nX,1);
 
 switch testcase
    case 1
-   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-   %Hier muss etwas implementiert werden%
-   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-   
+       Theta_BC = Theta_BC + 1;
+       
+       
    case 2
    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
    %Hier muss etwas implementiert werden%
