@@ -29,11 +29,14 @@ measuretime=0;
 tic
 Computertime();
 
+A = zeros(nX*nZ,nX*nZ);
+B = ones(nX*nZ,1);
+n = nX*nZ
+T = zeros(n,1);
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%Hier muss etwas implementiert werden%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+[A,B] = FillFDMatrix(A,B);
 
+T = GaussSeidel(A,B,T,n);
 
 % Visualisierung
 Animation(T);
