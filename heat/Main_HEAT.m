@@ -29,9 +29,9 @@ measuretime=0;
 tic
 Computertime();
 
-A = zeros(nX*nZ,nX*nZ);
-B = ones(nX*nZ,1);
 n = nX*nZ
+A = zeros(n,n);
+B = zeros(n,1);
 T = zeros(n,1);
 
 [A,B] = FillFDMatrix(A,B);
