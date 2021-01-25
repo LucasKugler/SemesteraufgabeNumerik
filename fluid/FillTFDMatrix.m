@@ -18,7 +18,8 @@ function [A,B]=FillTFDMatrix(A,B,U)
 %--------------------------------------------------------------------------
     % Linker Rand, X=0
     for j = 1:nZ
-        A(DOF(1,j),DOF(1,j)) = 1   
+        A(DOF(1,j),DOF(1,j)) = 1
+        B(DOF(1,j)) = 1
     end
     
     % Unterer Rand,Z=0
