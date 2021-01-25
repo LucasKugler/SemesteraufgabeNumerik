@@ -24,15 +24,15 @@ function [A,B]=FillFDMatrix(A,B)
        
        % Eindimensionale Wärmeleitung
        for j = 2:nZ-1
-           A(DOF(i,j),DOF(i,j-1)) = 1/dXs^2;
-           A(DOF(i,j),DOF(i,j)) = -2/dXs^2;
-           A(DOF(i,j),DOF(i,j+1)) = 1/dXs^2;
+           A(DOF(i,j),DOF(i,j-1)) = 1/dZs^2;
+           A(DOF(i,j),DOF(i,j)) = -2/dZs^2;
+           A(DOF(i,j),DOF(i,j+1)) = 1/dZs^2;
        end
        
        % Randbedingung bei z=W (konvektiver Wärmeübergang)
-       A(DOF(i,nZ),DOF(i,nZ)) = 3/(2*dXs) + Bi;
-       A(DOF(i,nZ),DOF(i,nZ-1)) = -4/(2*dXs);
-       A(DOF(i,nZ),DOF(i,nZ-2)) = 1/(2*dXs);
+       A(DOF(i,nZ),DOF(i,nZ)) = 3/(2*dZs) + Bi;
+       A(DOF(i,nZ),DOF(i,nZ-1)) = -4/(2*dZs);
+       A(DOF(i,nZ),DOF(i,nZ-2)) = 1/(2*dZs);
    end
        
    % Rechte Seite
