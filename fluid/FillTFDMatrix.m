@@ -37,24 +37,24 @@ function [A,B]=FillTFDMatrix(A,B,U)
         B(DOF(i,nZ)) = qf;
     end
     
-    % Rechter Rand,Z=H
+    % Linker Rand,J=2
     for j = 2:nZ-1
-        A(DOF(nX,j),DOF(nX,j-1)) = -1/dZf^2;
-        A(DOF(nX,j),DOF(nX,j)) = 2/dZf^2 + 3*Pe*U(DOF(nX,j))/(2*dXf);
-        A(DOF(nX,j),DOF(nX,j+1)) = -1/dZf^2;
+        A(DOF(2,j),DOF(2,j-1)) = -1/dZf^2;
+        A(DOF(2,j),DOF(2,j+1)) = -1/dZf^2;
         
-        A(DOF(nX,j),DOF(nX-1,j)) = -4*Pe*U(DOF(nX,j))/(2*dXf);
-        A(DOF(nX,j),DOF(nX-2,j)) = Pe*U(DOF(nX,j))/(2*dXf);
+        A(DOF(2,j),DOF(1,j)) = -4*Pe*U(DOF(2,j))/(2*dXf);
+        A(DOF(2,j),DOF(2,j)) = 2/dZf^2 + 4*Pe*U(DOF(2,j))/(2*dXf);
     end
     
     % Innerer Bereich
-    for i = 2:nX-1
+    for i = 3:nX
         for j = 2:nZ-1
-            A(DOF(i,j),DOF(i,j-1)) = -1/dZf^2;
-            A(DOF(i,j),DOF(i,j)) = 2/dZf^2;
-            A(DOF(i,j),DOF(i,j+1)) = -1/dZf^2;
-            A(DOF(i,j),DOF(i-1,j)) = -Pe*U(DOF(i,j))/(2*dXf);
-            A(DOF(i,j),DOF(i+1,j)) = Pe*U(DOF(i,j))/(2*dXf);
+        A(DOF(i,j),DOF(i,j-1)) = -1/dZf^2;
+        A(DOF(i,j),DOF(i,j+1)) = -1/dZf^2;
+        
+        A(DOF(i,j),DOF(i-2,j)) = Pe*U(DOF(i,j))/(2*dXf);
+        A(DOF(i,j),DOF(i-1,j)) = -4*Pe*U(DOF(i,j))/(2*dXf);
+        A(DOF(i,j),DOF(i,j)) = 2/dZf^2 + 3*Pe*U(DOF(i,j))/(2*dXf);
         end
     end
     
