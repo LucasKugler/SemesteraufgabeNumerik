@@ -34,7 +34,7 @@ function [A,B]=FillUFDMatrix(A,B)
         end
         
         % Oberer Rand,X=H
-        A(DOF(i,nZ),DOF(i,nZ)) = 3/(2*dZf)+1/beta_v*Kn;
+        A(DOF(i,nZ),DOF(i,nZ)) = 3/(2*dZf)+1/(beta_v*Kn);
         A(DOF(i,nZ),DOF(i,nZ-1)) = -4/(2*dZf);
         A(DOF(i,nZ),DOF(i,nZ-2)) = 1/(2*dZf);
     end
