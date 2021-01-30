@@ -45,9 +45,7 @@ U =zeros(nX*nZ,1);
 TF=zeros(nX*nZ,1);
 TS=zeros(nX*nZ,1);
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%Hier muss etwas implementiert werden%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+n=nX*nZ;
 
 % Outer Iteration iteration 
 dq=1;
@@ -55,17 +53,34 @@ iter=0;
 qf(:)=0;
 
 while (dq>eps)&&(iter<itermax)
-  qf_old=qf;  
+  qf_old=qf;
   
-  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-  %Hier muss etwas implementiert werden%
-  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  [A,B] = FillUFDMatrix(A,B);
+  U = GaussSeidel(A,B,U,n);
+  % A und B reinitialisieren
+  A = zeros(n,n);
+  B = zeros(n,1);
+  
+  [A,B] = FillTFDMatrix(A,B,U);
+  TF = GaussSeidel(A,B,TF,n);
+  % A und B reinitialisieren
+  A = zeros(n,n);
+  B = zeros(n,1);
+  
+  ExtractT(TF);
 
   Animation_coupled(TF,TS);
   
-  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-  %Hier muss etwas implementiert werden%
-  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  [A,B] = FillFDMatrix(A,B);
+  TS = GaussSeidel(A,B,TS,n);
+  % A und B reinitialisieren
+  A = zeros(n,n);
+  B = zeros(n,1);
+  
+  Extractq(TS);
+  
+  qf = qf*omega_c + (1 - omega_c)*qf_old;
+  dq = norm(qf-qf_old)
 
   Animation_coupled(TF,TS);
 end
