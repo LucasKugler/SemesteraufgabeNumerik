@@ -18,8 +18,17 @@ function [A,B]=FillTFDMatrix(A,B,U)
 %--------------------------------------------------------------------------
     % Linker Rand, X=0
     for j = 1:nZ
-        A(DOF(1,j),DOF(1,j)) = 1
-        B(DOF(1,j)) = 1
+        A(DOF(1,j),DOF(1,j)) = 1;
+        B(DOF(1,j)) = 1;
+    end
+    
+    % Linker Rand,i=2
+    for j = 2:nZ-1
+        A(DOF(2,j),DOF(2,j-1)) = -1/dZf^2;
+        A(DOF(2,j),DOF(2,j+1)) = -1/dZf^2;
+        
+        A(DOF(2,j),DOF(2,j)) = -4*Pe*U(DOF(2,j))/(2*dXf);
+        A(DOF(2,j),DOF(2,j)) = 2/dZf^2 + 4*Pe*U(DOF(2,j))/(2*dXf);
     end
     
     % Unterer Rand,Z=0
@@ -34,17 +43,9 @@ function [A,B]=FillTFDMatrix(A,B,U)
         A(DOF(i,nZ),DOF(i,nZ)) = 3/(2*dZf);
         A(DOF(i,nZ),DOF(i,nZ-1)) = -4/(2*dZf);
         A(DOF(i,nZ),DOF(i,nZ-2)) = 1/(2*dZf);
-        B(DOF(i,nZ)) = qf;
+        B(DOF(i,nZ)) = qf(i);
     end
-    
-    % Linker Rand,J=2
-    for j = 2:nZ-1
-        A(DOF(2,j),DOF(2,j-1)) = -1/dZf^2;
-        A(DOF(2,j),DOF(2,j+1)) = -1/dZf^2;
-        
-        A(DOF(2,j),DOF(1,j)) = -4*Pe*U(DOF(2,j))/(2*dXf);
-        A(DOF(2,j),DOF(2,j)) = 2/dZf^2 + 4*Pe*U(DOF(2,j))/(2*dXf);
-    end
+
     
     % Innerer Bereich
     for i = 3:nX
