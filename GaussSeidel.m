@@ -19,8 +19,12 @@ fprintf('Starting Gauss-Seidel Iteration!    \n');
 
 
 while delta>eps
-   iter=iter+1; 
+   iter=iter+1;
    uTilde = zeros(n,1);
+   
+%    if iter >= 1000
+%        error('Max iterations reached!    \n');
+%    end
 
    for i = 1:n
 
