@@ -46,6 +46,13 @@ function [A,B]=FillTFDMatrix(A,B,U)
         B(DOF(i,nZ)) = qf(i);
     end
     
+%     for i = 2:nX-1
+%         A(DOF(i,nZ),DOF(i+1,nZ)) = 1/dZf^2;
+%         A(DOF(i,nZ),DOF(i,nZ)) = A(DOF(i,nZ),DOF(i,nZ)) - 2/dXf^2;
+%         A(DOF(i,nZ),DOF(i-1,nZ)) = 1/dZf^2;
+%     end
+    
+    
     % Innerer Bereich
     for i = 3:nX
         for j = 2:nZ-1
