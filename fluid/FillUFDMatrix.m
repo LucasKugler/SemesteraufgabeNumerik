@@ -17,8 +17,6 @@ function [A,B]=FillUFDMatrix(A,B)
 
     %--------------------------------------------------------------------------
     
-    % Kanaleintritt
-    
     for i = 1:nX
         % Unterer Rand,X=0
         A(DOF(i,1),DOF(i,1)) = -3/(2*dZf);
@@ -38,9 +36,6 @@ function [A,B]=FillUFDMatrix(A,B)
         A(DOF(i,nZ),DOF(i,nZ-1)) = -4/(2*dZf);
         A(DOF(i,nZ),DOF(i,nZ-2)) = 1/(2*dZf);
     end
-    
-    
-    
     
 end
 
