@@ -27,7 +27,7 @@ function [A,B]=FillTFDMatrix(A,B,U)
         A(DOF(2,j),DOF(2,j-1)) = -1/dZf^2;
         A(DOF(2,j),DOF(2,j+1)) = -1/dZf^2;
         
-        A(DOF(2,j),DOF(2,j)) = -4*Pe*U(DOF(2,j))/(2*dXf);
+        A(DOF(2,j),DOF(1,j)) = -4*Pe*U(DOF(2,j))/(2*dXf);
         A(DOF(2,j),DOF(2,j)) = 2/dZf^2 + 4*Pe*U(DOF(2,j))/(2*dXf);
     end
     
@@ -45,7 +45,6 @@ function [A,B]=FillTFDMatrix(A,B,U)
         A(DOF(i,nZ),DOF(i,nZ-2)) = 1/(2*dZf);
         B(DOF(i,nZ)) = qf(i);
     end
-
     
     % Innerer Bereich
     for i = 3:nX
