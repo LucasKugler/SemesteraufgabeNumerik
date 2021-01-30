@@ -30,18 +30,20 @@ tic
 Computertime();
 
 n = nX*nZ
-Au = zeros(n,n);
-Bu = zeros(n,1);
-At = zeros(n,n);
-Bt = zeros(n,1);
+A = zeros(n,n);
+B = zeros(n,1);
 T = zeros(n,1);
 U = zeros(n,1);
 
-[Au,Bu] = FillUFDMatrix(Au,Bu);
-U = GaussSeidel(Au,Bu,U,n);
+[A,B] = FillUFDMatrix(A,B);
+U = GaussSeidel(A,B,U,n);
 
-[At,Bt] = FillTFDMatrix(At,Bt,U);
-T = GaussSeidel(At,Bt,T,n);
+% A und B müssen reinitialisiert werden
+A = zeros(n,n);
+B = zeros(n,1);
+
+[A,B] = FillTFDMatrix(A,B,U);
+T = GaussSeidel(A,B,T,n);
 
 % Visualisierung
 Animation(U,T);
