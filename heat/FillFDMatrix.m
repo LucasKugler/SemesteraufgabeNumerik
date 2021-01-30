@@ -22,6 +22,8 @@ function [A,B]=FillFDMatrix(A,B)
        % Randbedingung bei z=H
        A(DOF(i,1),DOF(i,1)) = 1;
        
+       B(DOF(i,1)) = Theta_BC(i);
+       
        % Eindimensionale Wärmeleitung
        for j = 2:nZ-1
            A(DOF(i,j),DOF(i,j-1)) = 1/dZs^2;
@@ -33,11 +35,6 @@ function [A,B]=FillFDMatrix(A,B)
        A(DOF(i,nZ),DOF(i,nZ)) = 3/(2*dZs) + Bi;
        A(DOF(i,nZ),DOF(i,nZ-1)) = -4/(2*dZs);
        A(DOF(i,nZ),DOF(i,nZ-2)) = 1/(2*dZs);
-   end
-       
-   % Rechte Seite
-   for i = 1:nX
-       B(i) = Theta_BC(i);
    end
 
    
