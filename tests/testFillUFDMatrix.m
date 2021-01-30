@@ -1,21 +1,21 @@
 clear
+close all
 clc
 
-global nX nZ dZf dXf beta_v Kn
+global nX nZ dZf dXf beta_v Kn LH
 
-nX = 4;
-nZ = 6;
+dZf = 0.0714;
+nX = 15;
+nZ = 15;
+n = nX*nZ;
 
-dXf = 1;
-dZf = 1;
+beta_v = 1.5
+Kn = 0.05
 
-beta_v = 1
-Kn = 1
+A = zeros(n,n);
+B = zeros(n,1);
+U = zeros(n,1);
 
-A = zeros(nX*nZ,nX*nZ);
-B = zeros(nX*nZ,1);
+[A,B] = FillUFDMatrix(A,B);
 
-[A,B] = FillUFDMatrix(A,B)
-
-A
-B
+U = GaussSeidel(A,B,U,n)
