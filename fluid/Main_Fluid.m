@@ -29,9 +29,19 @@ measuretime=0;
 tic
 Computertime();
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%Hier muss etwas implementiert werden%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+n = nX*nZ
+Au = zeros(n,n);
+Bu = zeros(n,1);
+At = zeros(n,n);
+Bt = zeros(n,1);
+T = zeros(n,1);
+U = zeros(n,1);
+
+[Au,Bu] = FillUFDMatrix(Au,Bu);
+U = GaussSeidel(Au,Bu,U,n);
+
+[At,Bt] = FillTFDMatrix(At,Bt,U);
+T = GaussSeidel(At,Bt,T,n);
 
 % Visualisierung
 Animation(U,T);

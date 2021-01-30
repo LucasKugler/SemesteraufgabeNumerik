@@ -23,9 +23,7 @@ switch testcase
        
        
    case 2
-   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-   %Hier muss etwas implementiert werden%
-   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+       Theta_BC = Theta_BC + 1;
 
 end
 
