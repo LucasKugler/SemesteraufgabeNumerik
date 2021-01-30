@@ -22,9 +22,9 @@ while delta>eps
    iter=iter+1;
    uTilde = zeros(n,1);
    
-%    if iter >= 1000
-%        error('Max iterations reached!    \n');
-%    end
+   if iter >= 10000
+       error('Max iterations reached!    \n');
+   end
 
    for i = 1:n
 
