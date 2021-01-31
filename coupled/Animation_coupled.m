@@ -25,8 +25,9 @@ Z=[Zf ; Zs];
 figure(1);
 surf(Xf,Z,TTemp');
 xlabel('x');
-ylabel('y');
+ylabel('z');
 zlabel('$\Theta$','Interpreter','Latex');
+daspect([1 1 1])
 
 getframe;
 drawnow;
