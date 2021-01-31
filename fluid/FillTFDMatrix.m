@@ -52,21 +52,30 @@ function [A,B]=FillTFDMatrix(A,B,U)
 %         A(DOF(i,nZ),DOF(i-1,nZ)) = 1/dZf^2;
 %     end
     
-    
-    % Innerer Bereich
-    for i = 3:nX
-        for j = 2:nZ-1
+    % Rechter Rand
+    for j = 2:nZ-1
         A(DOF(i,j),DOF(i,j-1)) = -1/dZf^2;
         A(DOF(i,j),DOF(i,j+1)) = -1/dZf^2;
         
-        A(DOF(i,j),DOF(i,j)) = 2/dZf^2 + 2/dXf^2 + 3*Pe*U(DOF(i,j))/(2*dXf);
+        A(DOF(nX,j),DOF(nX,j)) = 2/dZf^2 + 3*Pe*U(DOF(nX,j))/(2*dXf);
         
-        A(DOF(i,j),DOF(i-2,j)) = Pe*U(DOF(i,j))/(2*dXf);
-        A(DOF(i,j),DOF(i-1,j)) = -4*Pe*U(DOF(i,j))/(2*dXf) - 1/dXf^2;
-        A(DOF(i,j),DOF(i+1,j)) = -1/dXf^2;
-        
-        end
+        A(DOF(nX,j),DOF(nX-2,j)) = Pe*U(DOF(nX,j))/(2*dXf);
+        A(DOF(nX,j),DOF(nX-1,j)) = -4*Pe*U(DOF(nX,j))/(2*dXf);
     end
     
+    
+    % Innerer Bereich
+    for i = 3:nX-1
+        for j = 2:nZ-1
+            A(DOF(i,j),DOF(i,j-1)) = -1/dZf^2;
+            A(DOF(i,j),DOF(i,j+1)) = -1/dZf^2;
+            
+            A(DOF(i,j),DOF(i,j)) = 2/dZf^2 + 2/dXf^2 + 3*Pe*U(DOF(i,j))/(2*dXf);
+            
+            A(DOF(i,j),DOF(i-2,j)) = Pe*U(DOF(i,j))/(2*dXf);
+            A(DOF(i,j),DOF(i-1,j)) = -4*Pe*U(DOF(i,j))/(2*dXf) - 1/dXf^2;
+            A(DOF(i,j),DOF(i+1,j)) = -1/dXf^2;
+        end
+    end
 end
 

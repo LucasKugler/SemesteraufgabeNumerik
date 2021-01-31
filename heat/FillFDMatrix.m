@@ -17,50 +17,44 @@ function [A,B]=FillFDMatrix(A,B)
  
 %--------------------------------------------------------------------------
 
-   % Randbedingung bei z=H
-   A(DOF(1,1),DOF(1,1)) = 1;
+   % Unterer Rand bei z=H
+   for i = 1:nX
+       A(DOF(i,1),DOF(i,1)) = 1;
+       B(DOF(i,1)) = Theta_BC(i);
+   end
    
-   B(DOF(1,1)) = Theta_BC(1);
+   % Oberer Rand bei z=W (konvektiver Wärmeübergang)
+   for i = 1:nX
+       A(DOF(i,nZ),DOF(i,nZ)) = 3/(2*dZs) + Bi;
+       A(DOF(i,nZ),DOF(i,nZ-1)) = -4/(2*dZs);
+       A(DOF(i,nZ),DOF(i,nZ-2)) = 1/(2*dZs);
+   end
    
-   % Eindimensionale Wärmeleitung
+   % Linker Rand
    for j = 2:nZ-1
        A(DOF(1,j),DOF(1,j-1)) = 1/dZs^2;
        A(DOF(1,j),DOF(1,j)) = -2/dZs^2;
        A(DOF(1,j),DOF(1,j+1)) = 1/dZs^2;
    end
    
-   % Randbedingung bei z=W (konvektiver Wärmeübergang)
-   A(DOF(1,nZ),DOF(1,nZ)) = 3/(2*dZs) + Bi;
-   A(DOF(1,nZ),DOF(1,nZ-1)) = -4/(2*dZs);
-   A(DOF(1,nZ),DOF(1,nZ-2)) = 1/(2*dZs);
+   % Rechter Rand
+   for j = 2:nZ-1
+       A(DOF(nX,j),DOF(nX,j-1)) = 1/dZs^2;
+       A(DOF(nX,j),DOF(nX,j)) = -2/dZs^2;
+       A(DOF(nX,j),DOF(nX,j+1)) = 1/dZs^2;
+   end
    
-   for i = 1:nX
-       % Randbedingung bei z=H
-       A(DOF(i,1),DOF(i,1)) = 1;
-       
-       B(DOF(i,1)) = Theta_BC(i);
-       
-       % Zweidimensionale Wärmeleitung
+   % Innere Bereich
+   for i = 2:nX-1
        for j = 2:nZ-1
            A(DOF(i,j),DOF(i,j-1)) = 1/dZs^2;
            A(DOF(i,j),DOF(i,j+1)) = 1/dZs^2;
            
-           A(DOF(i,j),DOF(i,j)) = -2/dZs^2 - 2/dXs^2;
+           A(DOF(i,j),DOF(i,j)) = -2/dZs^2 - 2/dXs^2;     % 2D
            
            A(DOF(i,j),DOF(i-1,j)) = 1/dXs^2;
            A(DOF(i,j),DOF(i+1,j)) = 1/dXs^2;
        end
-       
-       % Randbedingung bei z=W (konvektiver Wärmeübergang)
-       A(DOF(i,nZ),DOF(i,nZ)) = 3/(2*dZs) + Bi;
-       A(DOF(i,nZ),DOF(i,nZ-1)) = -4/(2*dZs);
-       A(DOF(i,nZ),DOF(i,nZ-2)) = 1/(2*dZs);
-       
-%        if i>1 && i<nX
-%            A(DOF(i,nZ),DOF(i,nZ)) = A(DOF(i,nZ),DOF(i,nZ)) - 2/dXs^2;
-%            A(DOF(i,nZ),DOF(i-1,nZ)) = 1/dXs^2;
-%            A(DOF(i,nZ),DOF(i+1,nZ)) = 1/dXs^2;
-%        end
    end
 
    
