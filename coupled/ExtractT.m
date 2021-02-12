@@ -17,7 +17,8 @@ function ExtractT(T)
 %--------------------------------------------------------------------------
 
     for i = 1:nX
-        Theta_BC(i) = T(DOF(i,nZ));
+        Theta_BC(i) = T(DOF(i,nZ)) + ...
+            beta_T*Kn*(3*T(DOF(i,nZ)) - 4*T(DOF(i,nZ-1)) + T(DOF(i,nZ-2)))/(2*dZf);
     end
 
 end
