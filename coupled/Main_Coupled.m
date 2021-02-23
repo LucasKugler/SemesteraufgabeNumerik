@@ -80,7 +80,7 @@ while (dq>eps)&&(iter<itermax)
   Extractq(TS);
   
   qf = qf*omega_c + (1 - omega_c)*qf_old;
-  dq = norm(qf-qf_old)
+  dq = norm(qf-qf_old);
 
   Animation_coupled(TF,TS);
 end
