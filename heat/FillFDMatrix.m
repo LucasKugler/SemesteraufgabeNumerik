@@ -25,26 +25,32 @@ function [A,B]=FillFDMatrix(A,B)
    
    % Oberer Rand bei z=W (konvektiver Wärmeübergang)
    for i = 1:nX
-       A(DOF(i,nZ),DOF(i,nZ)) = 3/(2*dZs) + Bi;
-       A(DOF(i,nZ),DOF(i,nZ-1)) = -4/(2*dZs);
        A(DOF(i,nZ),DOF(i,nZ-2)) = 1/(2*dZs);
+       A(DOF(i,nZ),DOF(i,nZ-1)) = -4/(2*dZs);
+       A(DOF(i,nZ),DOF(i,nZ)) = 3/(2*dZs) + Bi;
    end
    
    % Linker Rand
    for j = 2:nZ-1
        A(DOF(1,j),DOF(1,j-1)) = 1/dZs^2;
-       A(DOF(1,j),DOF(1,j)) = -2/dZs^2;
        A(DOF(1,j),DOF(1,j+1)) = 1/dZs^2;
+       
+       A(DOF(1,j),DOF(1,j)) = -2/dZs^2 - 2/dXs^2;
+       
+       A(DOF(1,j),DOF(2,j)) = 2/dXs^2;
    end
    
    % Rechter Rand
    for j = 2:nZ-1
        A(DOF(nX,j),DOF(nX,j-1)) = 1/dZs^2;
-       A(DOF(nX,j),DOF(nX,j)) = -2/dZs^2;
        A(DOF(nX,j),DOF(nX,j+1)) = 1/dZs^2;
+       
+       A(DOF(nX,j),DOF(nX,j)) = -2/dZs^2 - 2/dXs^2;
+       
+       A(DOF(nX,j),DOF(nX-1,j)) = 2/dXs^2;
    end
    
-   % Innere Bereich
+   % Innerer Bereich
    for i = 2:nX-1
        for j = 2:nZ-1
            A(DOF(i,j),DOF(i,j-1)) = 1/dZs^2;
